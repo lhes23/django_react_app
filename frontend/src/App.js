@@ -27,11 +27,18 @@ function App() {
     e.preventDefault()
     console.log({ title, content })
     client
-      .post("http://localhost:8000/api/posts/", { title, content })
+      .post("api/posts/", { title, content })
       .then(() => fetchData())
       .catch((err) => console.log(err))
     setTitle("")
     setContent("")
+  }
+
+  const handleDelete = (id) => {
+    client
+      .delete("api/posts/" + id)
+      .then(() => fetchData())
+      .catch((err) => console.log(err))
   }
 
   return (
@@ -40,7 +47,8 @@ function App() {
       <ul>
         {posts?.map((post) => (
           <li key={post.id}>
-            {post.title} - {post.content}
+            {post.title} - {post.content}{" "}
+            <button onClick={() => handleDelete(post.id)}>delete</button>
           </li>
         ))}
       </ul>
